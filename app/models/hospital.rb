@@ -9,4 +9,8 @@ class Hospital < ApplicationRecord
   def distinct_universities
     self.doctors.distinct.pluck(:university)
   end
+
+  def ordered_patients
+    self.patients.order(age: :desc).distinct
+  end
 end

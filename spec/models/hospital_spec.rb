@@ -71,7 +71,35 @@ RSpec.describe Hospital, type: :model do
         expect(@hospital.distinct_universities.sort).to eq(@expected_list.sort)
         expect(@hospital.distinct_universities.count).to eq(3)
       end
-
     end
+
+    describe '#ordered_patients' do
+      it 'should return an array of patients ordered by descending age' do
+        @hospital = Hospital.create!(name: "Grey Sloan Memorial Hospital")
+
+        @doctor_1 = @hospital.doctors.create!(name: "Meredith Grey", specialty: "General Surgery",
+                                  university: "Harvard University")
+        @doctor_2 = @hospital.doctors.create!(name: "Alex Karev", specialty: "Pediatric Surgery",
+                                  university: "Johns Hopkins University")
+        @doctor_3 = @hospital.doctors.create!(name: "Miranda Bailey", specialty: "General Surgery",
+                                  university: "Stanford University")
+
+        @patient_1 = Patient.create!(name: "Katie Bryce", age: 24)
+        @patient_2 = Patient.create!(name: "Rebecca Pope", age: 32)
+        @patient_3 = Patient.create!(name: "Zola Shepherd", age: 2)
+        @patient_4 = Patient.create!(name: "Denny Duquette", age: 44)
+
+        @doctor_1.patients << @patient_1
+        @doctor_1.patients << @patient_2
+        @doctor_2.patients << @patient_3
+        @doctor_3.patients << @patient_4
+        @doctor_3.patients << @patient_1
+
+        ordered_list = [@patient_4, @patient_2, @patient_1, @patient_3]
+
+        expect(@hospital.ordered_patients).to eq(ordered_list)
+      end
+    end
+
   end
 end
