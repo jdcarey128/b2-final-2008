@@ -1,0 +1,18 @@
+<section class="hospital-info">
+  <h4><%= @hospital.name %></h4>
+</section><br>
+
+
+<section class="doctors">
+  <h4>Doctors</h4>
+  <b>Doctors at this hospital: </b><i><%= @hospital.doctor_count %></i>
+</section>
+
+<section class="doctor-universities">
+  <h4>Universities Represented</h4>
+  <ul>
+    <% @hospital.distinct_universities.each do |university| %>
+      <li><%= university %></li>
+    <% end %>
+  </ul>
+</section>
