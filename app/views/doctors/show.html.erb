@@ -1,0 +1,23 @@
+<section class="hospital">
+  <h4>Hospital</h4>
+  <i><%= @doctor.hospital.name %></i>
+</section><br>
+
+<section class="doctor-info">
+  <h4>Doctor Information</h4>
+  <ul>
+    <li><%= @doctor.name %></li>
+    <li><%= @doctor.specialty %></li>
+    <li><%= @doctor.university %></li>
+  </ul>
+</section><br>
+
+<section class="patient-caseload">
+  <h4>Patient Caseload</h4>
+  <ul>
+    <% @doctor.patients.each do |patient| %>
+      <li class='patient' id="patient-<%= patient.id %>"><%= patient.name %>
+      <%= button_to 'delete patient', "/hospitals/#{@doctor.hospital.id}/doctors/#{@doctor.id}/patients/#{patient.id}", method: :delete -%></li>
+    <% end %>
+  </ul>
+</section>
