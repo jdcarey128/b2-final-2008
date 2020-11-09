@@ -16,7 +16,8 @@
   <h4>Patient Caseload</h4>
   <ul>
     <% @doctor.patients.each do |patient| %>
-      <li><%= patient.name %></li>
+      <li class='patient' id="patient-<%= patient.id %>"><%= patient.name %>
+      <%= button_to 'delete patient', "/hospitals/#{@doctor.hospital.id}/doctors/#{@doctor.id}/patients/#{patient.id}", method: :delete -%></li>
     <% end %>
   </ul>
 </section>

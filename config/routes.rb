@@ -3,8 +3,11 @@ Rails.application.routes.draw do
 
   resources :hospitals, only: [:show]
 
-  scope '/hospitals/:id' do
+  scope '/hospitals/:hospital_id' do
     resources :doctors, only: [:show]
+    scope '/doctors/:id' do
+      delete '/patients/:patient_id', to: 'patients#destroy'
+    end
   end
 
 end
