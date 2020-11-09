@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe Hospital, type: :model do
   describe 'relationships' do
     it {should have_many :doctors}
+    it {should have_many(:patients).through(:doctors)}
   end
 
   describe 'instance methods' do
@@ -66,7 +67,7 @@ RSpec.describe Hospital, type: :model do
                                   university: "Harvard University")
         @doctor_5 = @hospital.doctors.create!(name: "Harold Washington", specialty: "General Surgeon",
                                   university: "Stanford University")
-                                  
+
         expect(@hospital.distinct_universities.sort).to eq(@expected_list.sort)
         expect(@hospital.distinct_universities.count).to eq(3)
       end
