@@ -113,10 +113,6 @@ RSpec.describe Hospital, type: :model do
         expect(@hospital.ordered_patients).to eq(@ordered_list)
         expect(@hospital_2.ordered_patients).to eq([@patient_1])
       end
-
     end
-
-
-
   end
 end
