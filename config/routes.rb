@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 
   scope '/hospitals/:hospital_id' do
     resources :doctors, only: [:show]
+    resources :patients, only: [:index]
     scope '/doctors/:id' do
       delete '/patients/:patient_id', to: 'patient_doctors#destroy'
     end
