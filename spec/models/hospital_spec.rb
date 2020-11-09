@@ -74,7 +74,7 @@ RSpec.describe Hospital, type: :model do
     end
 
     describe '#ordered_patients' do
-      it 'should return an array of patients ordered by descending age' do
+      before :each do
         @hospital = Hospital.create!(name: "Grey Sloan Memorial Hospital")
 
         @doctor_1 = @hospital.doctors.create!(name: "Meredith Grey", specialty: "General Surgery",
@@ -95,11 +95,28 @@ RSpec.describe Hospital, type: :model do
         @doctor_3.patients << @patient_4
         @doctor_3.patients << @patient_1
 
-        ordered_list = [@patient_4, @patient_2, @patient_1, @patient_3]
-
-        expect(@hospital.ordered_patients).to eq(ordered_list)
+        @ordered_list = [@patient_4, @patient_2, @patient_1, @patient_3]
       end
+
+      it 'should return an array of distinct patients ordered by descending age' do
+        expect(@hospital.ordered_patients).to eq(@ordered_list)
+      end
+
+      it 'should return an array of distinct patients only for hospital in question' do
+        @hospital_2 = Hospital.create!(name: "Seaside Health & Wellness Center")
+
+        @doctor_4 = @hospital_2.doctors.create!(name: "Derek Shepherd", specialty: "Attending Surgeon",
+                                  university: "Creighton University")
+
+        @doctor_4.patients << @patient_1
+
+        expect(@hospital.ordered_patients).to eq(@ordered_list)
+        expect(@hospital_2.ordered_patients).to eq([@patient_1])
+      end
+
     end
+
+
 
   end
 end
