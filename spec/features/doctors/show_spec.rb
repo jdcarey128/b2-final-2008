@@ -71,7 +71,30 @@ RSpec.describe 'As a visitor', type: :feature do
     end
 
     it "Deleting a patient from one doctor's show page does not delete them from another" do
+      @doctor_2.patients << @patient_2
 
+      visit "/hospitals/#{@hospital.id}/doctors/#{@doctor_1.id}"
+
+      within ".patient-caseload" do
+        expect(page).to have_button('delete patient', count:2)
+      end
+
+      within "#patient-#{@patient_2.id}" do
+        click_button 'delete patient'
+      end
+
+      within ".patient-caseload" do
+        expect(page).to have_css('.patient', count:1)
+        expect(page).to_not have_content(@patient_2.name)
+      end
+
+      visit "/hospitals/#{@hospital.id}/doctors/#{@doctor_2.id}"
+
+      within ".patient-caseload" do
+        expect(page).to have_content(@patient_2.name)
+        expect(page).to have_css("#patient-#{@patient_2.id}")
+      end
     end
+
   end
 end
